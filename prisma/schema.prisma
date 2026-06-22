@@ -10,4 +10,54 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Status {
+ TODO
+ IN_PROGRESS
+ DONE
+}
+
+model User {
+  id       String    @id
+  email    String    @unique
+  name     String?
+  surname  String?
+
+  projects Project[]
+}
+
+model Project {
+  id        String   @id @default(uuid())
+  title     String
+  desc      String?
+  status    Status   @default(TODO)
+  createdAt DateTime @default(now())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  stages  Stage[]
+}
+
+model Stage {
+  id        String   @id @default(uuid())
+  title     String
+  desc      String?
+  status    Status   @default(TODO)
+  order     Int
+  createdAt DateTime @default(now())
+  projectId String
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  tasks Task[]
+}
+
+model Task {
+  id        String   @id @default(uuid())
+  title     String
+  desc      String?
+  status    Status   @default(TODO)
+  order     Int
+  createdAt DateTime @default(now())
+  stageId   String
+  stage Stage @relation(fields: [stageId], references: [id], onDelete: Cascade)
 }
