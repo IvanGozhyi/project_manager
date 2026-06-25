@@ -1,3 +1,5 @@
+"use client";
+
 function Footer() {
     return (
         <footer className="bg-gray-50 border-t border-gray-200 py-10 mt-auto">
