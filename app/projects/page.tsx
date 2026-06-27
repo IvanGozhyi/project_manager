@@ -2,6 +2,8 @@ import {auth} from "@/auth";
 import {redirect} from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link"
+import ProjectHeader from "@/components/project_header/ProjectHeader";
+
 
 
 export default async function ProjectPage() {
@@ -21,14 +23,11 @@ export default async function ProjectPage() {
     });
 
 
+
+
     return (
         <div className="max-w-6xl mx-auto p-6 mt-8">
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
-                <h1 className="text-3xl font-extrabold text-white-900 tracking-tight">My Projects</h1>
-                <button className="px-5 py-2.5 bg-blue-600 text-white font-medium rounded-lg shadow-sm hover:bg-blue-700 hover:shadow transition-all">
-                    + Create Project
-                </button>
-            </div>
+            <ProjectHeader />
 
             {projects.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-24 bg-gray-50 rounded-2xl border border-dashed border-gray-300">
