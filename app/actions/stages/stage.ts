@@ -14,10 +14,12 @@ export async function createStageAction(formData: FormData) {
     const projectId = formData.get("projectId") as string;
     const title = formData.get("title") as string;
 
-    if (!projectId || !title) return;
+    if (!projectId || !title){
+        throw new Error(`Invalid ${projectId}, title: ${title}`)
+    }
 
-    const existingStageCount = await prisma.task.count({
-        where: { stage: { projectId } }
+    const existingStageCount = await prisma.stage.count({
+        where: { projectId: projectId }
     });
 
     await prisma.stage.create({

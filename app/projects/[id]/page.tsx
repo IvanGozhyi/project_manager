@@ -1,10 +1,19 @@
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
+import EditButton from "@/components/edit_button/EditButton";
+import {createStageAction, deleteStageAction, updateStageAction} from "@/app/actions/stages/stage";
+import CreateButton from "@/components/create_button/CreateButton";
+import {createTaskAction, deleteTaskAction, updateTaskAction} from "@/app/actions/tasks/task";
+import DeleteButton from "@/components/delete_button/DeleteButton";
+import TaskCard from "@/components/task_card/TaskCard";
+
 
 interface ProjectPageProps {
     params: Promise<{ id: string }>;
 }
+
+
 
 export default async function Page({ params }: ProjectPageProps) {
     const { id } = await params;
@@ -65,17 +74,44 @@ export default async function Page({ params }: ProjectPageProps) {
 
                         <div className="flex flex-col gap-3">
                             {stage.tasks.map((task) => (
-                                <div
-                                    key={task.id}
-                                    className="bg-white p-3 rounded-lg shadow-sm border border-gray-200"
-                                >
-                                    <p className="text-sm text-gray-800">{task.title}</p>
-                                </div>
+                                <TaskCard task={task} stage={stage} project={project} />
                             ))}
                         </div>
+
+                        <CreateButton
+                            initialTitle=""
+                            action={createTaskAction}
+                            hiddenInputs={{ projectId: project.id, stageId: stage.id }}
+                            buttonText="Add New Task"
+                            modalTitle="Create New Task"
+                            buttonClassName="mt-4 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+                            initialStatus="todo"
+                        />
+
+                        <EditButton
+                            initialTitle={stage.title}
+                            action={updateStageAction}
+                            hiddenInputs={{ stageId: stage.id, projectId: project.id }}
+                            buttonText="Edit Stage"
+                            modalTitle="Edit Stage"
+                            buttonClassName="text-gray-500 hover:text-gray-900 text-sm font-medium"
+                        />
+                        <DeleteButton
+                            action={deleteStageAction}
+                            hiddenInputs={{stageId: stage.id, projectId: project.id}}
+                            buttonClassName="p-2 bg-white border border-gray-200 text-gray-600 rounded-md hover:text-red-600 hover:border-red-300 shadow-sm transition-all"
+                        />
                     </div>
                 ))}
             </div>
+            <CreateButton
+                initialTitle=""
+                action={createStageAction}
+                hiddenInputs={{ projectId: project.id }}
+                buttonText="Add New Stage"
+                modalTitle="Create New Stage"
+                buttonClassName="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+            />
         </div>
     );
 }

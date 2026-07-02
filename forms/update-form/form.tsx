@@ -17,7 +17,7 @@ interface UniversalEditFormProps {
     statusOptions?: StatusOption[];
 }
 
-export default function Form({
+export default function UniversalUpdateForm({
                                               initialTitle,
                                               action,
                                               hiddenInputs = {},
