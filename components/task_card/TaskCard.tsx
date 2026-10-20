@@ -4,6 +4,9 @@ import React from 'react';
 import EditButton from "@/components/edit_button/EditButton";
 import { deleteTaskAction, updateTaskAction } from "@/app/actions/tasks/task";
 import DeleteButton from "@/components/delete_button/DeleteButton";
+import StatusBadge from "@/components/status_badge/StatusBadge";
+import TaskModal from "@/components/task_modal/TaskModal";
+
 
 interface TaskCardProps {
     task: {
@@ -27,10 +30,15 @@ interface TaskCardProps {
 }
 
 function TaskCard({ task, stage, project }: TaskCardProps) {
+    const [isModalOpen, setIsModalOpen] = React.useState(false);
     return (
-        <div className="group relative flex justify-between items-center bg-white p-3 rounded-lg shadow-sm border border-gray-200 hover:border-blue-300 transition-colors">
+        <><div onClick={(event) => {
+            event.stopPropagation();
+            setIsModalOpen(true)}
+        }
+               className="group relative flex justify-between items-center bg-white p-3 rounded-lg shadow-sm border border-gray-200 hover:border-blue-300 transition-colors">
             <p className="text-sm text-gray-800 pr-16">
-                {task.title} <span className="text-xs text-gray-500 ml-2">({task.status})</span>
+                {task.title} <span className="text-xs text-gray-500 ml-2"><StatusBadge status={task.status}/></span>
             </p>
 
             <div className="absolute right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity bg-white pl-2">
@@ -54,8 +62,19 @@ function TaskCard({ task, stage, project }: TaskCardProps) {
                     hiddenInputs={{ taskId: task.id, stageId: stage.id, projectId: project.id }}
                     buttonClassName="p-2 bg-white border border-gray-200 text-gray-600 rounded-md hover:text-red-600 hover:border-red-300 shadow-sm transition-all"
                 />
+
             </div>
         </div>
+
+
+
+                <TaskModal
+                    task={task}
+                    isOpen={isModalOpen}
+                    onClose={()=>   setIsModalOpen(false)}
+                />
+
+        </>
     );
 }
 

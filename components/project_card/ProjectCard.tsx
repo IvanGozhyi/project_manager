@@ -3,6 +3,7 @@ import Link from "next/link";
 import EditButton from "@/components/edit_button/EditButton";
 import DeleteButton from "../delete_button/DeleteButton";
 import { deleteProjectAction, updateProjectAction } from "@/app/actions/projects/projects";
+import StatusBadge from "@/components/status_badge/StatusBadge";
 
 interface ProjectCardProps {
     project: {
@@ -51,9 +52,7 @@ function ProjectCard({ project }: ProjectCardProps) {
                     <h2 className="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors line-clamp-1">
                         {project.title}
                     </h2>
-                    <span className="px-2.5 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-600 border border-gray-200 whitespace-nowrap">
-                        {project.status}
-                    </span>
+                       <StatusBadge status={project.status}/>
                 </div>
 
                 {project.desc ? (
@@ -67,7 +66,7 @@ function ProjectCard({ project }: ProjectCardProps) {
                 )}
 
                 <div className="text-xs text-gray-400 mt-4 pt-4 border-t border-gray-50">
-                    Created: {project.createdAt.toLocaleDateString("en-US")}
+                    Created: {project.createdAt.toLocaleDateString("en-UK")}
                 </div>
             </Link>
         </div>

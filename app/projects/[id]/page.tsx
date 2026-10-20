@@ -4,7 +4,7 @@ import { auth } from "@/auth";
 import EditButton from "@/components/edit_button/EditButton";
 import {createStageAction, deleteStageAction, updateStageAction} from "@/app/actions/stages/stage";
 import CreateButton from "@/components/create_button/CreateButton";
-import {createTaskAction, deleteTaskAction, updateTaskAction} from "@/app/actions/tasks/task";
+import {createTaskAction} from "@/app/actions/tasks/task";
 import DeleteButton from "@/components/delete_button/DeleteButton";
 import TaskCard from "@/components/task_card/TaskCard";
 
@@ -74,7 +74,10 @@ export default async function Page({ params }: ProjectPageProps) {
 
                         <div className="flex flex-col gap-3">
                             {stage.tasks.map((task) => (
-                                <TaskCard task={task} stage={stage} project={project} />
+                                <TaskCard key={task.id}
+                                          task={task}
+                                          stage={stage}
+                                          project={project} />
                             ))}
                         </div>
 

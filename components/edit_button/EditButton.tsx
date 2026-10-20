@@ -23,12 +23,11 @@ interface UniversalEditButtonProps {
 
 export default function EditButton({ initialTitle, action, hiddenInputs, buttonText = "Edit", modalTitle = "Edit", buttonClassName = "px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700", initialStatus, statusOptions }: UniversalEditButtonProps) {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const handleEditClick = (event : any) => {
-        event.preventDefault();
+    const handleEditClick = () => {
         setIsModalOpen(true);
     }
     return (
-        <div>
+        <div onClick={(e) => e.stopPropagation()}>
             <button
                 onClick={handleEditClick}
                 className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
